@@ -1,0 +1,81 @@
+import { useState } from "react";
+var isEdit = -1;
+
+const Durc = () => {
+  const [name, setName] = useState([]);
+  var [facultyName, setFacultyName] = useState("");
+
+  var formatedV = name.map((fac, i) => {
+    return (
+      <li className="text-info">
+        {fac}{" "}
+        <button
+          className="btn btn-primary"
+          onClick={() => {
+            isEdit = i;
+            setFacultyName(name[i]);
+            console.log(name[i]);
+          }}
+        >
+          Edit
+        </button>
+        <button
+          className="btn btn-danger"
+          onClick={() => {
+            name.splice(i, 1);
+            setName([...name]);
+          }}
+        >
+          Delete
+        </button>
+      </li>
+    );
+  });
+  return (
+    <>
+      <form>
+        <table>
+          <tr>
+            <td>Enter Faculty Name</td>
+            <td>:</td>
+            <td>
+              <input
+                type="text"
+                value={facultyName}
+                onChange={(e) => {
+                  // setName([e.target.value, ...name]);
+
+                  console.log({ formatedV });
+                  setFacultyName(e.target.value);
+                  console.log(e.timeStamp);
+                }}
+              />
+            </td>
+          </tr>
+
+          <tr>
+            <td colSpan="3" align="center">
+              <input
+                type="submit"
+                onClick={(e) => {
+                  if (isEdit > -1) {
+                    // setName([facultyName, ...name])
+                    name[isEdit] = facultyName;
+                  } else {
+                    setName([facultyName, ...name]);
+                  }
+                  setFacultyName("");
+                  e.preventDefault();
+                }}
+                value="submit"
+              />
+            </td>
+          </tr>
+        </table>
+      </form>
+      <ul>{formatedV}</ul>
+    </>
+  );
+};
+
+export default Durc;
